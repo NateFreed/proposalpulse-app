@@ -1,4 +1,4 @@
-import type { ProposalBlockData, PricingItem } from './ProposalBlock';
+import type { ProposalBlockData, PricingItem } from '@/components/ProposalBlock';
 
 export interface ProposalTemplate {
   id: string;
