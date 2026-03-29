@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getUser } from '@/lib/auth';
+import AppTutorial from '@/components/AppTutorial';
 
 // Mock data for v1
 const MOCK_PROPOSALS = [
@@ -43,11 +44,17 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-8 px-4 space-y-6">
+      <AppTutorial />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-foreground">Proposals</h1>
-        <Link href="/editor" className="px-4 py-2 bg-accent hover:bg-accent-light rounded-xl text-sm font-semibold text-white shadow-sm shadow-accent/10 transition-all">
-          + New Proposal
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/settings" className="px-4 py-2 bg-surface border border-border rounded-xl text-sm text-muted hover:text-foreground transition-colors">
+            Settings
+          </Link>
+          <Link href="/editor" className="px-4 py-2 bg-accent hover:bg-accent-light rounded-xl text-sm font-semibold text-white shadow-sm shadow-accent/10 transition-all">
+            + New Proposal
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}
@@ -88,6 +95,23 @@ export default function DashboardPage() {
           );
         })}
       </div>
+
+      {/* Cross-sell: InvoicePulse */}
+      {accepted.length > 0 && (
+        <div className="glow-card p-5 flex items-center justify-between !border-emerald-500/20">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-emerald-500/15 rounded-lg flex items-center justify-center text-emerald-400 text-sm">💰</div>
+            <div>
+              <h3 className="text-sm font-medium text-foreground">Proposal accepted? Create an invoice</h3>
+              <p className="text-xs text-muted">{accepted.length} accepted proposal{accepted.length > 1 ? 's' : ''} ready to invoice — ${(acceptedValue / 100).toLocaleString()} total</p>
+            </div>
+          </div>
+          <a href="https://invoicepulse.pages.dev/editor" target="_blank" rel="noopener noreferrer"
+            className="px-4 py-2 bg-emerald-500/15 text-emerald-400 rounded-xl text-xs font-medium hover:bg-emerald-500/25 transition-colors flex-shrink-0">
+            Create Invoice →
+          </a>
+        </div>
+      )}
     </div>
   );
 }
